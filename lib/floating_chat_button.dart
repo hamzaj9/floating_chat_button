@@ -79,6 +79,8 @@ class FloatingChatButton extends StatefulWidget {
   /// default resting spaces
   final double chatIconHorizontalOffset;
 
+  final bool hideMessageOnDragEnd;
+
   FloatingChatButton(
       {this.background,
       required this.onTap,
@@ -103,6 +105,7 @@ class FloatingChatButton extends StatefulWidget {
       this.showMessageParameters,
       this.chatIconVerticalOffset = 30,
       this.chatIconHorizontalOffset = 30,
+      this.hideMessageOnDragEnd = true,
       Key? key})
       : assert(chatIconWidget == null ||
             (chatIconSize == null &&
@@ -256,6 +259,8 @@ class FloatingChatButtonState extends State<FloatingChatButton> {
               childWhenDragging: Container(),
               onDragEnd: (draggableDetails) {
                 _setStateIfMounted(() {
+                  if(widget.hideMessageOnDragEnd)
+                    isTimeToShowMessage = false;
                   isTop = (draggableDetails.offset.dy <
                       (MediaQuery.of(context).size.height) / 2);
                   isRight = (draggableDetails.offset.dx >
